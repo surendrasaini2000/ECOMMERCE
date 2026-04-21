@@ -31,13 +31,15 @@ const createReview=async (req,res)=>{
 const getAllReview=async (req,res)=>{
      
       const _review=await review.find({})
+      .populate({path:'product',select:'name price category'})
+      .populate({path:'user',select:'name role'})
       res.status(StatusCodes.OK).json({_review,count:_review.length})
 }
 
 
 const getSingleReview=async (req,res)=>{
       const {id:reviewId}=req.params
-    const _review=await Review.findOne({_id:reviewId})
+    const _review=await Review.findOne({_id:reviewId}).populate({path:'product',select:'name price category'})
     if (!_review)
     {
         return res.status(StatusCodes.NOT_FOUND).json({msg:` no review found with id : ${reviewId}`})
@@ -48,7 +50,30 @@ const getSingleReview=async (req,res)=>{
 }
 
 const updateReview=async (req,res)=>{
-        res.send('update Review')
+       const {id:reviewId}=req.params
+       const {rating,title,comment }=req.body
+   
+      // const _review= await Review.findOneAndUpdate({_id:reviewId},req.body,{new:true,runValidators:true})
+
+        const _review=await  Review.findOne({_id:reviewId})
+
+        if (!_review)
+        {
+          return  res.status(StatusCodes.NOT_FOUND).json({msg:` no review found with id : ${reviewId}`})
+        }
+
+
+        _review.rating=rating
+        _review.title=title
+        _review.comment=comment
+        await _review.save()
+
+
+        res.status(StatusCodes.OK).json({_review})
+
+
+      
+       
 }
 
 const deleteReview=async (req,res)=>{
@@ -74,6 +99,14 @@ const deleteReview=async (req,res)=>{
         
 }
 
+
+const getSingleProductReviews=async(req,res)=>{
+    const {id:productId}=req.params
+
+   const _review = await Review.find({product:productId})
+res.status(StatusCodes.OK).json({_review,count:_review.length})
+
+}
 
 
 module.exports={createReview,getAllReview,getSingleReview,updateReview,deleteReview}
