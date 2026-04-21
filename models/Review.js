@@ -19,6 +19,11 @@ const ReviewSchema=mongoose.Schema({
         required:[true,'please provide review title'],
         
     },
+    user:{
+        type:mongoose.Schema.ObjectId,
+        ref:'User',
+        required:true
+    },
     product:{
         type:mongoose.Schema.ObjectId,
         ref:'Product',
