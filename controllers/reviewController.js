@@ -109,4 +109,4 @@ res.status(StatusCodes.OK).json({_review,count:_review.length})
 }
 
 
-module.exports={createReview,getAllReview,getSingleReview,updateReview,deleteReview}
+module.exports={createReview,getAllReview,getSingleReview,updateReview,deleteReview,getSingleProductReviews}

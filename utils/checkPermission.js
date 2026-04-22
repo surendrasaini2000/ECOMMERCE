@@ -5,9 +5,10 @@ const checkPermission=(requestUserId,requestUserRole,resourseUserId)=>{
    if (requestUserRole==='admin')
      {
       return {status:'true' } 
-    }else if (requestUserId===resourseUserId)
+    }
+    else if (requestUserId===resourseUserId)
     {
-  return {status:'true' } 
+    return {status:'true' } 
     }
     else
     {

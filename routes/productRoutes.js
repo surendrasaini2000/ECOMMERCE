@@ -9,8 +9,9 @@ router.route('/').get(authenticateUser,getAllProducts)
 router.route('/').post(authenticateUser,authorizePermission('admin'),createProduct)
 router.route('/:id').patch(authenticateUser,authorizePermission('admin'),updateProduct)
 router.route('/:id').get(authenticateUser,getSingleProduct)
+
 router.route('/:id').delete(authenticateUser,authorizePermission('admin'),deleteProduct)
 router.route('/uploadImage').post(authenticateUser,authorizePermission('admin'),uploadImage)
-//router.route('/:id').get(getSingleProductReviews)
+router.route('/:id/reviews').get(getSingleProductReviews)
 
 module.exports=router
