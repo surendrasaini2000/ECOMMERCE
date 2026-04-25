@@ -79,22 +79,45 @@ res.status(StatusCodes.CREATED).json({order,clientSecret:order.client_secret})
 }
 
 const getAllOrders= async(req,res)=>{
-res.send('getAllOrders')
+        const _orders= await Order.findOne({})
+        res.status(StatusCodes.OK).json({_orders,count: _orders.length})
 }
 
 
 const getSingleOrder= async(req,res)=>{
-res.send('getSingleOrder')
+const {id:orderId }=req.params
+const _order=await Order.findOne({_id:orderId})
+if (!_order)
+{
+    return res.status(StatusCodes.NOT_FOUND).json({ msg:`no order with id :${orderId}`})
+}
+//checkPermission(req.user)
+res.status(StatusCodes.OK).json({_order})
 }
 
 const getCurrentUserOrders= async(req,res)=>{
-res.send('getC urrent User Orders')
-}
+        const _orders= await Order.findOne({user:req.user.userId})
+        res.status(StatusCodes.OK).json({_orders,count:_orders.length})
+}   
+
 
 
 
 const updateOrder= async(req,res)=>{
-    res.send('updateOrder')
+   
+    const { id:orderId}=req.params
+    const {paymentIntentId}=req.body
+
+    const _order=await Order.findOne({_id:orderId})
+    if (!_order)
+    {
+    return res.status(StatusCodes.NOT_FOUND).json({ msg:`no order with id :${orderId}`})
+    }
+    _order.paymentIntentId=paymentIntentId
+    _order.status='paid'
+    await _order.save()
+
+    res.status(StatusCodes.OK).json({_order})
 }
 
 
