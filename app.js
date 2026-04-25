@@ -14,6 +14,7 @@ const authRouter=require('../Ecommerce/routes/auth')
 const userRouter=require('../Ecommerce/routes/user')
 const productRouter=require('../Ecommerce/routes/productRoutes')
 const reviewRouter=require('../Ecommerce/routes/review')
+const orderRouter=require('../Ecommerce/routes/orderRoutes')
 
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
@@ -39,6 +40,7 @@ app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/products',productRouter)
 app.use('/api/v1/reviews',reviewRouter)
+app.use('/api/v1/orders',orderRouter)
 
 app.use(notfoundMiddleware)
 
